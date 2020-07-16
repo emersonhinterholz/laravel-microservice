@@ -12,7 +12,7 @@ class CategoryController extends Controller
         'name' => 'required|max:255',
         'is_active' => 'boolean'
     ];
-    
+
     public function index()
     {
         return Category::all();
@@ -20,9 +20,11 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        
+
         $this->validate($request, $this->rules);
-        return Category::create($request->all());
+        $category = Category::create($request->all());
+        $category->refresh();
+        return $category;
     }
 
     public function show(Category $category)
@@ -32,7 +34,7 @@ class CategoryController extends Controller
 
     public function update(Request $request, Category $category)
     {
-        
+
         $this->validate($request, $this->rules);
         $category->update($request->all());
         return $category;
